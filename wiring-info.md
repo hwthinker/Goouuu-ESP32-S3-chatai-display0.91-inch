@@ -2,7 +2,7 @@
 
 Dokumen ini merangkum **seluruh pin GPIO** yang dipakai pada folder `Source-code/` (modul 00 s/d 07) dan **GPIO yang masih bebas** untuk pengembangan lanjutan.
 
-Target board: **ESP32-S3-WROOM-1 / N16R8** (16 MB Flash + 8 MB OPI PSRAM).
+Target board: **YD-ESP32-S3** dengan modul **ESP32-S3-WROOM-1 / N16R8** (16 MB QIO Flash + 8 MB OPI PSRAM).
 
 ---
 
@@ -90,24 +90,24 @@ ESP32-S3 menyediakan GPIO `0–21` dan `26–48` (GPIO `22–25` tidak ada di ch
 
 ### 4.1 Bebas penuh (rekomendasi pertama)
 
-| GPIO | Fitur tambahan                        | Catatan pemakaian                                  |
-|:----:|---------------------------------------|----------------------------------------------------|
-|  1   | ADC1_CH0, RTC                         | Bebas                                              |
-|  2   | ADC1_CH1, RTC                         | Bebas                                              |
-|  8   | ADC1_CH7, RTC                         | Bebas (sering dipakai jadi I2C alternatif)         |
-|  9   | ADC1_CH8, RTC, FSPIHD                 | Bebas                                              |
-| 10   | ADC1_CH9, RTC, FSPICS0                | Bebas                                              |
-| 11   | ADC2_CH0, RTC, FSPID (MOSI)           | Bebas                                              |
-| 12   | ADC2_CH1, RTC, FSPICLK                | Bebas                                              |
-| 13   | ADC2_CH2, RTC, FSPIQ (MISO)           | Bebas                                              |
-| 14   | ADC2_CH3, RTC, FSPIWP                 | Bebas                                              |
-| 17   | ADC2_CH6, RTC                         | Bebas                                              |
-| 18   | ADC2_CH7, RTC                         | Bebas                                              |
-| 21   | —                                     | Bebas                                              |
-| 38   | —                                     | Bebas                                              |
-| 39   | MTCK (JTAG)                           | Bebas jika JTAG eksternal tidak dipakai            |
-| 40   | MTDO (JTAG)                           | Bebas jika JTAG eksternal tidak dipakai            |
-| 47   | —                                     | Bebas                                              |
+| GPIO | Fitur tambahan                        | Catatan pemakaian                                                                          |
+|:----:|---------------------------------------|--------------------------------------------------------------------------------------------|
+|  1   | ADC1_CH0, RTC                         | Bebas                                                                                      |
+|  2   | ADC1_CH1, RTC                         | Bebas                                                                                      |
+|  8   | ADC1_CH7, RTC                         | Bebas (sering dipakai jadi I2C alternatif)                                                 |
+|  9   | ADC1_CH8, RTC, FSPIHD                 | Bebas                                                                                      |
+| 10   | ADC1_CH9, RTC, FSPICS0                | Bebas                                                                                      |
+| 11   | ADC2_CH0, RTC, FSPID (MOSI)           | Bebas                                                                                      |
+| 12   | ADC2_CH1, RTC, FSPICLK, TOUCH12       | **Dipakai expansion board** — jangan dipakai ulang sebagai output saat expansion terpasang. |
+| 13   | ADC2_CH2, RTC, FSPIQ (MISO)           | Bebas                                                                                      |
+| 14   | ADC2_CH3, RTC, FSPIWP                 | Bebas                                                                                      |
+| 17   | ADC2_CH6, RTC                         | Bebas                                                                                      |
+| 18   | ADC2_CH7, RTC                         | Bebas                                                                                      |
+| 21   | —                                     | Bebas                                                                                      |
+| 38   | —                                     | Bebas                                                                                      |
+| 39   | MTCK (JTAG)                           | Bebas jika JTAG eksternal tidak dipakai                                                    |
+| 40   | MTDO (JTAG)                           | Bebas jika JTAG eksternal tidak dipakai                                                    |
+| 47   | —                                     | Bebas                                                                                      |
 
 ### 4.2 Bebas tapi **strapping pin** (hati-hati saat boot)
 
@@ -133,14 +133,17 @@ ESP32-S3 menyediakan GPIO `0–21` dan `26–48` (GPIO `22–25` tidak ada di ch
 
 `22, 23, 24, 25` — tidak ada secara fisik di ESP32-S3.
 
+GPIO `12` — dipakai oleh expansion board (tidak ada di sketch demo `Source-code/` tapi terhubung fisik). Jangan dipakai ulang sebagai output saat expansion terpasang.
+
 ---
 
 ## 5. Ringkasan Cepat
 
-- **Total GPIO terpakai aktif (sketch):** 10 pin → `0, 4, 5, 6, 7, 15, 16, 41, 42, 48`.
+- **Total GPIO terpakai aktif (sketch demo):** 10 pin → `0, 4, 5, 6, 7, 15, 16, 41, 42, 48`.
 - **Total GPIO terpakai sistem (USB + UART):** +4 pin → `19, 20, 43, 44`.
-- **GPIO bebas penuh & aman:** 16 pin → `1, 2, 8, 9, 10, 11, 12, 13, 14, 17, 18, 21, 38, 39, 40, 47`.
+- **GPIO terpakai expansion board:** `12`.
+- **GPIO bebas & aman dipakai:** `1, 2, 8, 9, 10, 11, 13, 14, 17, 18, 21, 38, 39, 40, 47`.
 - **GPIO bebas dengan catatan strapping:** `3, 45, 46`.
-- **Reserved internal modul:** `26–37` (Flash + OPI PSRAM).
+- **Reserved internal modul N16R8:** `26–32` (QIO Flash) + `33–37` (OPI PSRAM).
 
 Untuk penambahan komponen baru (mis. tombol, sensor I2C kedua, encoder, SD card SPI), prioritaskan dulu dari **Bagian 4.1**.
